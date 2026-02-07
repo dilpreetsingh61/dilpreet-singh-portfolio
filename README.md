@@ -21,18 +21,18 @@ A modern, responsive portfolio website showcasing my skills as a Full-Stack Deve
 
 ## 🚀 Live Demo
 
-**[View Live Portfolio →](https://dilpreetsingh61.github.io/Portfolio)**  
-*(Update this link after deployment)*
+**[View Live Portfolio →](https://dilpreetsingh61.github.io/dilpreet-singh-portfolio/)**  
+
 
 ## 📸 Screenshots
 
 ### Desktop View
 ![Desktop Screenshot](./assets/desktop-preview.png)  
-*(Add screenshot after hosting)*
+
 
 ### Mobile View
 ![Mobile Screenshot](./assets/mobile-preview.png)  
-*(Add screenshot after hosting)*
+
 
 ## 🛠️ Technologies Used
 

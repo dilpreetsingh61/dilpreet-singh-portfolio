@@ -21,7 +21,7 @@ A modern, responsive portfolio website showcasing my skills as a Full-Stack Deve
 
 ## 🚀 Live Demo
 
-**[View Live Portfolio →](https://dilpreetsingh61.github.io/dilpreet-singh-portfolio/)**  
+**[View Live Portfolio →]([(https://dilpreet-singh-portfolio.netlify.app/))**  
 
 
 ## 📸 Screenshots

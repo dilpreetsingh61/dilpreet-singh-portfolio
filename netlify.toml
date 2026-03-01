@@ -1,0 +1,13 @@
+[build]
+  # No build command needed for static site
+  publish = "."
+  
+[functions]
+  # Directory where Netlify functions are stored
+  directory = "netlify/functions"
+
+[[redirects]]
+  # Optional: Redirect /api/* to /.netlify/functions/*
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200

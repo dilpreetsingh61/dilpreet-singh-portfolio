@@ -127,39 +127,65 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 });
 
-// ================= LEETCODE STATS AUTO-UPDATE =================
-async function fetchLeetCodeStats() {
-  const username = 'dilpreetsingh61'; // Your LeetCode username
+// ================= LEETCODE STATS (Real-time via Serverless Function) =================
+// Fetches real stats from your serverless API, bypassing CORS
+
+async function initializeLeetCodeStats() {
+  const username = 'dilpreetsingh61';
+  
+  // API endpoint for Netlify functions
+  const apiUrl = '/.netlify/functions/leetcode-stats';
   
   try {
-    // Using LeetCode's public API endpoint
-    const response = await fetch(`https://leetcode-stats-api.herokuapp.com/${username}`);
+    const response = await fetch(`${apiUrl}?username=${username}`);
     
     if (!response.ok) {
-      throw new Error('Failed to fetch stats');
+      throw new Error(`API error: ${response.status}`);
     }
     
-    const data = await response.json();
+    const result = await response.json();
+    const stats = result.data;
+    
+    if (result.success) {
+      console.log('✅ LeetCode stats fetched successfully (real-time)');
+    } else {
+      console.warn('⚠️ Using fallback stats:', result.error);
+    }
     
     // Update the stats in the DOM
-    if (data.totalSolved !== undefined) {
-      updateStatElement('total-solved', data.totalSolved);
-      updateStatElement('about-total-solved', data.totalSolved);
-      updateStatElement('easy-solved', data.easySolved);
-      updateStatElement('medium-solved', data.mediumSolved);
-      updateStatElement('hard-solved', data.hardSolved);
-      
-      // Calculate and update category-specific stats
-      const treesGraphs = Math.floor(data.totalSolved * 0.25); // Approximate
-      const dp = Math.floor(data.totalSolved * 0.175); // Approximate
-      updateStatElement('trees-graphs-count', treesGraphs);
-      updateStatElement('dp-count', dp);
-    }
+    updateStatElement('total-solved', stats.total);
+    updateStatElement('about-total-solved', stats.total);
+    updateStatElement('easy-solved', stats.easy);
+    updateStatElement('medium-solved', stats.medium);
+    updateStatElement('hard-solved', stats.hard);
     
-    console.log('✅ LeetCode stats updated successfully');
+    // Calculate category-specific stats
+    const treesGraphs = Math.floor(stats.total * 0.25);
+    const dp = Math.floor(stats.total * 0.175);
+    updateStatElement('trees-graphs-count', treesGraphs);
+    updateStatElement('dp-count', dp);
+    
   } catch (error) {
-    console.warn('⚠️ Could not fetch LeetCode stats, using fallback values:', error.message);
-    // Fallback to existing hardcoded values - no change needed
+    console.error('❌ Failed to fetch LeetCode stats:', error.message);
+    console.log('Using hardcoded fallback values');
+    
+    // Fallback to static values
+    const fallbackStats = {
+      total: 258,
+      easy: 152,
+      medium: 96,
+      hard: 10,
+      treesGraphs: 65,
+      dp: 45
+    };
+    
+    updateStatElement('total-solved', fallbackStats.total);
+    updateStatElement('about-total-solved', fallbackStats.total);
+    updateStatElement('easy-solved', fallbackStats.easy);
+    updateStatElement('medium-solved', fallbackStats.medium);
+    updateStatElement('hard-solved', fallbackStats.hard);
+    updateStatElement('trees-graphs-count', fallbackStats.treesGraphs);
+    updateStatElement('dp-count', fallbackStats.dp);
   }
 }
 
@@ -188,5 +214,5 @@ function animateValue(element, start, end, duration) {
   }, 16);
 }
 
-// Fetch stats when page loads
-document.addEventListener('DOMContentLoaded', fetchLeetCodeStats);
+// Initialize stats when page loads
+document.addEventListener('DOMContentLoaded', initializeLeetCodeStats);

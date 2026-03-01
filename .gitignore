@@ -20,3 +20,5 @@ npm-debug.log*
 
 # Optional: Uncomment if you add node_modules later
 # node_modules/
+# Documentation (keep local only)
+DEPLOYMENT.md
